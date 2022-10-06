@@ -19,6 +19,7 @@ export const topLanguages = [
 ];
 
 export const allLanguages = [
+  "all",
   "ActionScript",
   "C",
   "C#",

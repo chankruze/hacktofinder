@@ -6,13 +6,19 @@ Copyright (c) geekofia 2022 and beyond
 */
 
 import { createContext, useContext } from "react";
-import { SortKeys } from "../helpers";
+import { ViewMode } from "../App";
+import { Issue, SortKeys } from "../helpers";
 
 export type AppContextType = {
   language: string;
   setLanguage: (lang: string) => void;
   sortKey: SortKeys;
   setSortKey: (k: SortKeys) => void;
+  viewMode: ViewMode;
+  setViewMode: (v: ViewMode) => void;
+  issues: Array<{
+    issue: Issue;
+  }>;
 };
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);

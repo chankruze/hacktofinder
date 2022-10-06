@@ -5,7 +5,26 @@ Created: Thu Oct 06 2022 10:04:50 GMT+0530 (India Standard Time)
 Copyright (c) geekofia 2022 and beyond
 */
 
-export const getIssues = (repos: any) => {
+export type Issue = {
+  title: string;
+  url: string;
+  createdAt: string;
+  repository: {
+    url: string;
+  };
+  labels: {
+    edges: Array<{
+      node: {
+        name: string;
+      };
+    }>;
+  };
+  comments: {
+    totalCount: number;
+  };
+};
+
+export const getIssues = (repos: any): Issue[] => {
   const issues = repos.flatMap(
     ({ repo }: { repo: any }) => repo.issues.issuesAll
   );

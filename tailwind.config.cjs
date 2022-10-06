@@ -14,7 +14,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };
 
 // dark: https://colorhunt.co/palette/222831393e46ffd369eeeeee
