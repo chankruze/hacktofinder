@@ -27,8 +27,7 @@ export const LanguageListGroup: FC<Props> = ({
           key={l}
           className={classNames(
             "p-2 rounded cursor-pointer duration-150",
-            "dark:hover:bg-dark-accent dark:text-dark-light",
-            "hover:text-gray-100 dark:hover:text-dark-primary"
+            "dark:hover:dark:bg-dark-accent/20 dark:text-dark-light"
           )}
           onClick={() => onLanguageSelect(l)}
         >

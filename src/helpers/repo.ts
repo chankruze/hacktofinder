@@ -31,7 +31,7 @@ export const fetchRepos = async (language: string) => {
           first: 30
         ) {
           repos: edges {
-              cursor
+            cursor
             repo: node {
               ... on Repository {
                 issues(

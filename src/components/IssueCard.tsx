@@ -8,9 +8,15 @@ Copyright (c) geekofia 2022 and beyond
 import classNames from "classnames";
 import { FC } from "react";
 import moment from "moment";
-import { getRepoName, Issue } from "../helpers";
+import { getRepoName, Issue, parseEmojis } from "../helpers";
 // icons
-import { RiExternalLinkLine } from "react-icons/ri";
+import {
+  RiExternalLinkLine,
+  RiCalendarCheckLine,
+  RiGitRepositoryLine,
+  RiRecordCircleLine,
+} from "react-icons/ri";
+import { Badge } from "./Badge";
 
 type Props = {
   issue: Issue;
@@ -18,52 +24,50 @@ type Props = {
 
 export const IssueCard: FC<Props> = ({ issue }) => {
   return (
-    <a
+    <div
       className={classNames(
         "p-4 space-y-3 rounded duration-150",
-        "bg-dark-primary",
-        "dark:hover:bg-opacity-60"
+        "bg-dark-primary"
       )}
-      href={issue.url}
     >
-      <div className="flex gap-2 justify-between">
+      <div className="flex gap-2 justify-between flex-wrap">
         {/* repo */}
         <a
           href={issue.repository.url}
           target="_blank"
-          className="flex items-center gap-1 text-blue-400 hover:text-blue-500"
+          className="flex items-center gap-1 text-blue-400 dark:hover:text-blue-400/70 duration-150"
         >
+          <RiGitRepositoryLine className="w-6 h-6" />
           {getRepoName(issue.repository.url)}
           <RiExternalLinkLine />
         </a>
         {/* date */}
-        <span
-          className={classNames(
-            "px-2 py-1 rounded text-sm font-medium",
-            "bg-blue-900 bg-opacity-40 text-blue-400"
-          )}
-        >
+        <Badge accent="blue" size="xs" fatText>
+          <RiCalendarCheckLine />{" "}
           {moment(issue.createdAt).format("DD MMM YYYY hh:mm A")}
-        </span>
-      </div>
-
-      {/* labels */}
-      <div className="flex gap-2">
-        {issue.labels.edges.map(({ node: { name } }) => (
-          <span
-            className={classNames(
-              "px-2 py-1 rounded text-sm font-medium",
-              "bg-dark-accent bg-opacity-10 text-dark-accent"
-            )}
-          >
-            {name}
-          </span>
-        ))}
+        </Badge>
       </div>
       {/* title */}
-      <p className="text-xl font-medium line-clamp-2 text-ellipsis">
-        {issue.title}
-      </p>
-    </a>
+      <div className="flex items-center gap-1">
+        <RiRecordCircleLine className="w-6 h-6 text-green-500" />
+        <a
+          href={issue.url}
+          className="w-fit text-xl font-medium line-clamp-2 text-ellipsis hover:text-blue-400"
+        >
+          {issue.title}{" "}
+          <span className="dark:text-dark-accent">
+            #{issue.url.split("/")[6]}
+          </span>
+        </a>
+      </div>
+      {/* labels */}
+      <div className="flex gap-2 flex-wrap">
+        {issue.labels.edges.map(({ node: { name } }) => (
+          <Badge accent="yellow" size="sm">
+            {parseEmojis(name)}
+          </Badge>
+        ))}
+      </div>
+    </div>
   );
 };

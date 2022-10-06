@@ -7,3 +7,4 @@ Copyright (c) geekofia 2022 and beyond
 
 export * from "./repo";
 export * from "./issues";
+export * from "./parseEmoji";

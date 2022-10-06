@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchRepos, getIssues, sortIssues, SortKeys } from "./helpers";
 // context
 import { AppContext } from "./contexts/AppContext";
-// svg
-import chooseSVG from "./assets/choose.svg";
+// components
 import { IssueGallery } from "./components/IssueGallery";
 import { Layout } from "./components/Layout";
 import { ActionBar } from "./components/ActionBar";
@@ -47,29 +46,18 @@ export default function App() {
       }}
     >
       <Layout>
-        <div className="p-4 min-h-screen space-y-4 bg-white dark:bg-dark-secondary overflow-hidden overflow-y-hidden">
-          {/* action bar */}
-          <ActionBar />
-          {/* results */}
-          <div className="flex-1 flex items-center justify-center overflow-x-auto">
-            {/* loading */}
-            {isLoading && (
-              <p className="text-2xl dark:text-dark-accent p-4">
-                Loading {language} issues...
-              </p>
-            )}
-            {/* empty div + choose svg */}
-            {!isLoading && !issues && (
-              <div className="flex flex-col gap-4 justify-center items-center">
-                <img src={chooseSVG} alt="choose svg" className="h-64" />
-                <p className="p-4 text-2xl dark:text-dark-accent capitalize">
-                  🙄 please choose a language
-                </p>
-              </div>
-            )}
-            {/* result div */}
-            {!isLoading && issues && <IssueGallery />}
-          </div>
+        {/* action bar */}
+        <ActionBar />
+        {/* results */}
+        <div className="flex-1 flex items-center justify-center overflow-x-auto">
+          {/* loading */}
+          {isLoading ? (
+            <p className="text-2xl dark:text-dark-accent p-4">
+              Loading {language} issues...
+            </p>
+          ) : (
+            <IssueGallery />
+          )}
         </div>
       </Layout>
     </AppContext.Provider>

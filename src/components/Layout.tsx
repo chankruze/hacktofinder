@@ -6,15 +6,17 @@ Copyright (c) geekofia 2022 and beyond
 */
 
 import React, { ComponentProps, FC, PropsWithChildren } from "react";
+import Footer from "./Footer";
 import { Navbar } from "./Navbar";
 
 type Props = PropsWithChildren<ComponentProps<"div">>;
 
 export const Layout: FC<Props> = ({ children }) => {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-white dark:bg-dark-secondary overflow-hidden">
       <Navbar />
-      {children}
+      <div className="p-4 space-y-4">{children}</div>
+      <Footer />
     </div>
   );
 };

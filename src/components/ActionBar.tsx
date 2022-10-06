@@ -7,38 +7,46 @@ Copyright (c) geekofia 2022 and beyond
 
 import { useAppContext } from "../contexts/AppContext";
 // icons
-import { RiGridLine, RiFileListLine } from "react-icons/ri";
+import { RiLayoutGridLine, RiLayoutRowLine } from "react-icons/ri";
 import classNames from "classnames";
 import { ViewMode } from "../App";
+import { LanguageSearch } from "./LanguageSearch";
+import { LangaugeSelect } from "./LangaugeSelect";
 
 export const ActionBar = () => {
   const { viewMode, setViewMode } = useAppContext();
 
   return (
-    <div className="flex justify-end">
+    <div className="flex gap-4">
+      {/* language query */}
+      {/* <div className="w-1/3">
+        <LanguageSearch />
+      </div> */}
+      {/* language select */}
+      <LangaugeSelect />
       {/* view mode */}
-      <div className="w-min flex items-center">
+      <div className="w-min ml-auto flex items-center divide-x">
         <div
           className={classNames(
-            "p-2 w-min flex items-center gap-2 rounded-l duration-150",
-            "bg-opacity-10 bg-dark-accent text-dark-accent",
-            "hover:bg-opacity-30",
-            { "bg-opacity-100 text-dark-primary": viewMode === ViewMode.GRID }
+            "p-2 w-min flex items-center gap-2 rounded-l duration-150 cursor-pointer",
+            "dark:border-dark-secondary dark:bg-dark-primary dark:text-dark-secondary",
+            "dark:hover:text-dark-accent",
+            { "dark:!text-dark-accent": viewMode === ViewMode.GRID }
           )}
           onClick={() => setViewMode(ViewMode.GRID)}
         >
-          <RiGridLine size={32} />
+          <RiLayoutGridLine size={32} />
         </div>
         <div
           className={classNames(
-            "p-2 w-min flex items-center gap-2 rounded-r duration-150",
-            "bg-opacity-10 bg-dark-accent text-dark-accent",
-            "dark:hover:bg-opacity-30",
-            { "bg-opacity-100 text-dark-primary": viewMode === ViewMode.LIST }
+            "p-2 w-min flex items-center gap-2 rounded-r duration-150 cursor-pointer",
+            "dark:border-dark-secondary dark:bg-dark-primary dark:text-dark-secondary",
+            "dark:hover:text-dark-accent",
+            { "dark:!text-dark-accent": viewMode === ViewMode.LIST }
           )}
           onClick={() => setViewMode(ViewMode.LIST)}
         >
-          <RiFileListLine size={32} />
+          <RiLayoutRowLine size={32} />
         </div>
       </div>
     </div>
