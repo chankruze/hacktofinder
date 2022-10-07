@@ -10,15 +10,15 @@ import { ViewMode } from "../App";
 import { Issue, SortKeys } from "../helpers";
 
 export type AppContextType = {
+  isLoading: boolean;
   language: string;
   setLanguage: (lang: string) => void;
   sortKey: SortKeys;
   setSortKey: (k: SortKeys) => void;
   viewMode: ViewMode;
   setViewMode: (v: ViewMode) => void;
-  issues: Array<{
-    issue: Issue;
-  }>;
+  issues: Issue[];
+  loadIssues: () => void;
 };
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);

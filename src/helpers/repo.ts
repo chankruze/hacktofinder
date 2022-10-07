@@ -5,7 +5,7 @@ Created: Thu Oct 06 2022 08:37:16 GMT+0530 (India Standard Time)
 Copyright (c) geekofia 2022 and beyond
 */
 
-import { SortKeys } from "./issues";
+import { Issue } from "./issues";
 
 if (!import.meta.env.VITE_GITHUB_TOKEN) {
   throw new Error(
@@ -13,7 +13,19 @@ if (!import.meta.env.VITE_GITHUB_TOKEN) {
   );
 }
 
-export const fetchRepos = async (language: string) => {
+export type Repo = {
+  cursor: string;
+  repo: {
+    issues: {
+      issuesAll: Issue[];
+    };
+  };
+};
+
+export const fetchRepos = async (
+  language: string,
+  cursor: string
+): Promise<Repo[]> => {
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Token ${import.meta.env.VITE_GITHUB_TOKEN}`,
@@ -31,6 +43,7 @@ export const fetchRepos = async (language: string) => {
           language:${language} 
           """
           first: 30
+          after: ${cursor ? `"${cursor}"` : null}
         ) {
           repos: edges {
             cursor
@@ -77,9 +90,7 @@ export const fetchRepos = async (language: string) => {
     body: JSON.stringify({ query: query }),
   });
   const data = await result.json();
-  const searchedRepos = data.data.search.repos;
-  //   this.cursor = searchedRepos[searchedRepos.length - 1].cursor;
-  const repos = data.data.search.repos.filter(({ repo }: { repo: any }) => {
+  const repos = data.data.search.repos.filter(({ repo }: Repo) => {
     return repo.issues.issuesAll.length > 0;
   });
   return repos;

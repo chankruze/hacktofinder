@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { fetchRepos, getIssues, sortIssues, SortKeys } from "./helpers";
+import {
+  fetchRepos,
+  getIssues,
+  Issue,
+  Repo,
+  sortIssues,
+  SortKeys,
+} from "./helpers";
 // context
 import { AppContext } from "./contexts/AppContext";
 // components
@@ -15,29 +22,15 @@ export const enum ViewMode {
 export default function App() {
   const [language, setLanguage] = useState("all");
   const [sortKey, setSortKey] = useState(SortKeys.DATE_CREATED);
-  const [languageQuery, setLanguageQuery] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
-  const [repos, setRepos] = useState([]);
-  const [issues, setIssues] = useState([]);
+  const [repos, setRepos] = useState<Repo[] | []>([]);
+  const [cursor, setCursor] = useState("");
+  const [issues, setIssues] = useState<Issue[] | []>([]);
   const [viewMode, setViewMode] = useState(ViewMode.GRID);
 
   useEffect(() => {
     if (language) {
-      // start loading indicator
-      setIsLoading(true);
-
-      (async () => {
-        // get the searched repos
-        const repos = await fetchRepos(language);
-        // stop loading indicator
-        setIsLoading(false);
-        // save the repos to state
-        setRepos(repos);
-        // extract and sort the issues
-        const issues = sortIssues(getIssues(repos), sortKey);
-        // save the issues to state
-        setIssues(issues);
-      })();
+      (async () => await loadIssues())();
     }
   }, [language]);
 
@@ -50,9 +43,29 @@ export default function App() {
     }
   }, [sortKey]);
 
+  const loadIssues = async () => {
+    // start loading indicator
+    setIsLoading(true);
+    // get the searched repos
+    const searchedRepos = await fetchRepos(language, cursor);
+    // update cursor
+    setCursor(searchedRepos[searchedRepos.length - 1].cursor);
+    // stop loading indicator
+    setIsLoading(false);
+    // save the repos to state
+    // setRepos((prev) => [...prev, ...searchedRepos]);
+    setRepos(searchedRepos);
+    // extract and sort the issues
+    const searchedIssues = sortIssues(getIssues(searchedRepos), sortKey);
+    // save the issues to state
+    // setIssues((prev) => [...prev, ...searchedIssues]);
+    setIssues(searchedIssues);
+  };
+
   return (
     <AppContext.Provider
       value={{
+        isLoading,
         language,
         setLanguage,
         sortKey,
@@ -60,6 +73,7 @@ export default function App() {
         issues,
         viewMode,
         setViewMode,
+        loadIssues,
       }}
     >
       <Layout>
@@ -67,14 +81,7 @@ export default function App() {
         <ActionBar />
         {/* results */}
         <div className="flex-1 flex items-center justify-center overflow-x-auto">
-          {/* loading */}
-          {isLoading ? (
-            <p className="text-2xl dark:text-dark-accent p-4">
-              Loading {language} issues...
-            </p>
-          ) : (
-            <IssueGallery />
-          )}
+          <IssueGallery />
         </div>
       </Layout>
     </AppContext.Provider>

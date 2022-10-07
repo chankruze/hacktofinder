@@ -5,8 +5,8 @@ Created: Thu Oct 06 2022 15:38:19 GMT+0530 (India Standard Time)
 Copyright (c) geekofia 2022 and beyond
 */
 
-import classNames from "classnames";
 import { FC } from "react";
+import classNames from "classnames";
 import moment from "moment";
 import { getRepoName, Issue, parseEmojis } from "../helpers";
 // icons
@@ -14,13 +14,10 @@ import {
   RiExternalLinkLine,
   RiCalendarCheckLine,
   RiGitRepositoryLine,
-  RiRecordCircleLine,
 } from "react-icons/ri";
 import { Badge } from "./Badge";
 
-type Props = {
-  issue: Issue;
-};
+type Props = Issue & {};
 
 export const IssueCard: FC<Props> = ({ issue }) => {
   return (

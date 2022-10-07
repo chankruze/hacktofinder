@@ -6,21 +6,23 @@ Copyright (c) geekofia 2022 and beyond
 */
 
 export type Issue = {
-  title: string;
-  url: string;
-  createdAt: string;
-  repository: {
+  issue: {
+    title: string;
     url: string;
-  };
-  labels: {
-    edges: Array<{
-      node: {
-        name: string;
-      };
-    }>;
-  };
-  comments: {
-    totalCount: number;
+    createdAt: string;
+    repository: {
+      url: string;
+    };
+    labels: {
+      edges: Array<{
+        node: {
+          name: string;
+        };
+      }>;
+    };
+    comments: {
+      totalCount: number;
+    };
   };
 };
 
@@ -36,7 +38,7 @@ export enum SortKeys {
   "NO_REPLIES" = "NO_REPLIES",
 }
 
-export const sortIssues = (issues: any, sortKey: SortKeys) => {
+export const sortIssues = (issues: Issue[], sortKey: SortKeys): Issue[] => {
   return issues.sort((a: any, b: any) => {
     // sort by no replies
     if (sortKey === SortKeys.NO_REPLIES) {

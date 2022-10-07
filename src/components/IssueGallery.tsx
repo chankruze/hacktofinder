@@ -10,23 +10,20 @@ import { IssueCard } from "./IssueCard";
 import { useAppContext } from "../contexts/AppContext";
 import { ViewMode } from "../App";
 // svg
-import chooseSVG from "../assets/choose.svg";
 import nodataSVG from "../assets/nodata.svg";
+import { LoadMore } from "./LoadMore";
 
 export const IssueGallery = () => {
-  const { issues, viewMode } = useAppContext();
+  const { language, issues, viewMode, isLoading } = useAppContext();
 
-  if (!issues)
+  if (isLoading)
     return (
-      <div className="flex flex-col gap-4 justify-center items-center">
-        <img src={chooseSVG} alt="choose svg" className="h-64" />
-        <p className="p-4 text-2xl dark:text-dark-accent capitalize">
-          🤘 please choose a language
-        </p>
-      </div>
+      <p className="text-2xl dark:text-dark-accent p-4 text-center">
+        Loading {language} issues...
+      </p>
     );
 
-  if (issues.length === 0) {
+  if (!isLoading && issues && issues.length === 0) {
     return (
       <div className="flex flex-col gap-4 justify-center items-center">
         <img src={nodataSVG} alt="choose svg" className="h-64" />
@@ -38,20 +35,24 @@ export const IssueGallery = () => {
   }
 
   return (
-    <div>
+    <div className="space-y-4">
       {viewMode === ViewMode.GRID ? (
         <div className="text-gray-200 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {issues.map(({ issue }: { issue: Issue }) => (
+          {issues.map(({ issue }: Issue) => (
             <IssueCard key={issue.url} issue={issue} />
           ))}
         </div>
       ) : (
         <div className="text-gray-200 flex flex-col gap-4">
-          {issues.map(({ issue }: { issue: Issue }) => (
+          {issues.map(({ issue }: Issue) => (
             <IssueCard key={issue.url} issue={issue} />
           ))}
         </div>
       )}
+      {/* load more issues button */}
+      <div className="text-center">
+        <LoadMore />
+      </div>
     </div>
   );
 };
