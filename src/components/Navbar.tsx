@@ -5,7 +5,7 @@ Created: Thu Oct 06 2022 16:45:23 GMT+0530 (India Standard Time)
 Copyright (c) geekofia 2022 and beyond
 */
 
-import { RiGithubLine } from "react-icons/ri";
+import { RiGithubLine, RiLinkedinLine } from "react-icons/ri";
 import SocialLink from "./SocialLink";
 
 export const Navbar = () => {
@@ -19,6 +19,10 @@ export const Navbar = () => {
         <SocialLink
           icon={<RiGithubLine size={28} />}
           url="https://github.com/chankruze/hacktofinder"
+        />
+        <SocialLink
+          icon={<RiLinkedinLine size={28} />}
+          url="https://www.linkedin.com/in/chankruze"
         />
       </div>
     </div>

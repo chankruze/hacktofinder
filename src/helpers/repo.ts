@@ -5,6 +5,8 @@ Created: Thu Oct 06 2022 08:37:16 GMT+0530 (India Standard Time)
 Copyright (c) geekofia 2022 and beyond
 */
 
+import { SortKeys } from "./issues";
+
 if (!import.meta.env.VITE_GITHUB_TOKEN) {
   throw new Error(
     "Please set `VITE_GITHUB_TOKEN` value in environment variable"

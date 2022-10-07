@@ -12,6 +12,7 @@ import classNames from "classnames";
 import { ViewMode } from "../App";
 import { LanguageSearch } from "./LanguageSearch";
 import { LangaugeSelect } from "./LangaugeSelect";
+import { SortSelect } from "./SortSelect";
 
 export const ActionBar = () => {
   const { viewMode, setViewMode } = useAppContext();
@@ -24,8 +25,10 @@ export const ActionBar = () => {
       </div> */}
       {/* language select */}
       <LangaugeSelect />
+      {/* sort select */}
+      <SortSelect />
       {/* view mode */}
-      <div className="w-min ml-auto flex items-center divide-x">
+      <div className="hidden sm:flex w-fit ml-auto items-center divide-x">
         <div
           className={classNames(
             "p-2 w-min flex items-center gap-2 rounded-l duration-150 cursor-pointer",

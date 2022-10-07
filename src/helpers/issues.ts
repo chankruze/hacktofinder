@@ -32,8 +32,8 @@ export const getIssues = (repos: any): Issue[] => {
 };
 
 export enum SortKeys {
-  "DATE_CREATED",
-  "NO_REPLIES",
+  "DATE_CREATED" = "DATE_CREATED",
+  "NO_REPLIES" = "NO_REPLIES",
 }
 
 export const sortIssues = (issues: any, sortKey: SortKeys) => {

@@ -17,21 +17,38 @@ export default function App() {
   const [sortKey, setSortKey] = useState(SortKeys.DATE_CREATED);
   const [languageQuery, setLanguageQuery] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
+  const [repos, setRepos] = useState([]);
   const [issues, setIssues] = useState([]);
   const [viewMode, setViewMode] = useState(ViewMode.GRID);
 
   useEffect(() => {
     if (language) {
+      // start loading indicator
       setIsLoading(true);
 
       (async () => {
+        // get the searched repos
         const repos = await fetchRepos(language);
-        const issues = sortIssues(getIssues(repos), SortKeys.DATE_CREATED);
+        // stop loading indicator
         setIsLoading(false);
+        // save the repos to state
+        setRepos(repos);
+        // extract and sort the issues
+        const issues = sortIssues(getIssues(repos), sortKey);
+        // save the issues to state
         setIssues(issues);
       })();
     }
   }, [language]);
+
+  useEffect(() => {
+    if (sortKey) {
+      // extract and sort the issues from repo (saved in state) using new sortKey
+      const issues = sortIssues(getIssues(repos), sortKey);
+      // save the issues to state
+      setIssues(issues);
+    }
+  }, [sortKey]);
 
   return (
     <AppContext.Provider

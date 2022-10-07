@@ -10,6 +10,8 @@ import { useState } from "react";
 import { useAppContext } from "../contexts/AppContext";
 import { allLanguages, topLanguages } from "../data/languages";
 import { LanguageListGroup } from "./LanguageListGroup";
+// icons
+import { RiCodeLine } from "react-icons/ri";
 
 export const LangaugeSelect = () => {
   const { language, setLanguage } = useAppContext();
@@ -21,21 +23,24 @@ export const LangaugeSelect = () => {
   };
 
   return (
-    <div className="w-64 select-none">
-      <p
+    <div className="w-48 sm:w-64 select-none">
+      <div
         className={classNames(
-          "p-3 rounded cursor-pointer duration-150 font-medium",
+          "w-full p-2 flex relative items-center gap-2 rounded cursor-pointer duration-150",
           "dark:bg-dark-primary dark:text-dark-accent",
           "dark:hover:bg-dark-primary/60"
         )}
         onClick={() => setIsSelectOpen(!isSelectOpen)}
       >
-        {language || "👇 Select a language"}
-      </p>
-
+        <div className="text-dark-accent">
+          <RiCodeLine size={32} />
+        </div>
+        <p className={classNames("w-full font-medium")}>{language}</p>
+      </div>
+      {/* dropdown list */}
       <div
         className={classNames(
-          "w-64 p-2 rounded mt-1 max-h-64 overflow-auto absolute",
+          "w-48 sm:w-64 p-2 rounded mt-1 max-h-64 overflow-auto absolute",
           "dark:bg-dark-primary",
           { hidden: !isSelectOpen }
         )}

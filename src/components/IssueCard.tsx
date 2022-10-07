@@ -37,7 +37,7 @@ export const IssueCard: FC<Props> = ({ issue }) => {
           target="_blank"
           className="flex items-center gap-1 text-blue-400 dark:hover:text-blue-400/70 duration-150"
         >
-          <RiGitRepositoryLine className="w-6 h-6" />
+          <RiGitRepositoryLine className="w-5 h-5" />
           {getRepoName(issue.repository.url)}
           <RiExternalLinkLine />
         </a>
@@ -48,25 +48,28 @@ export const IssueCard: FC<Props> = ({ issue }) => {
         </Badge>
       </div>
       {/* title */}
-      <div className="flex items-center gap-1">
-        <RiRecordCircleLine className="w-6 h-6 text-green-500" />
-        <a
-          href={issue.url}
-          className="w-fit text-xl font-medium line-clamp-2 text-ellipsis hover:text-blue-400"
-        >
-          {issue.title}{" "}
-          <span className="dark:text-dark-accent">
-            #{issue.url.split("/")[6]}
-          </span>
-        </a>
-      </div>
-      {/* labels */}
-      <div className="flex gap-2 flex-wrap">
-        {issue.labels.edges.map(({ node: { name } }) => (
-          <Badge accent="yellow" size="sm">
-            {parseEmojis(name)}
-          </Badge>
-        ))}
+      <a
+        href={issue.url}
+        className="w-fit text-xl font-medium line-clamp-2 text-ellipsis hover:text-blue-400"
+      >
+        {issue.title}{" "}
+        <span className="dark:text-dark-accent">
+          #{issue.url.split("/")[6]}
+        </span>
+      </a>
+
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        {/* labels */}
+        <div className="flex gap-2 flex-wrap">
+          {issue.labels.edges.map(({ node: { name } }, idx) => (
+            <Badge key={idx} accent="yellow" size="sm">
+              {parseEmojis(name)}
+            </Badge>
+          ))}
+        </div>
+        <Badge accent="green" size="sm" fatText>
+          {issue.comments.totalCount} Comments
+        </Badge>
       </div>
     </div>
   );

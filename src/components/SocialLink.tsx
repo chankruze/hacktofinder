@@ -14,7 +14,7 @@ type Props = {
 
 const SocialLink: FC<Props> = ({ icon, url }) => {
   return (
-    <a href={url} className="p-2 rounded-full dark:hover:bg-dark-secondary">
+    <a href={url} className="p-2 rounded-full duration-150 dark:hover:bg-dark-secondary">
       {icon}
     </a>
   );
